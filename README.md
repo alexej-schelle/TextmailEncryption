@@ -1,4 +1,4 @@
-# GAN-based text encoder for secure email encryption
+# GAN-based number encoder for secure information transfer
 
 Praxisprojekt Mathematik-Labor (WiSe 2023/2024) - IU Internationale Hochschule
 
