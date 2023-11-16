@@ -4,7 +4,7 @@
 #                                                                                                                                              #
 ################################################################################################################################################
 
-# PYTHON ROUTINE zu Aufgabe 4.5 - Algorithmen, Datenstrukturen und Programmiersprachen #
+# BASIS PYTHON ROUTINE zur Verschlüssleung von Textnachrichten #
 
 import os
 import sys
