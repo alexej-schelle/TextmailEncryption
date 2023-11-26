@@ -14,7 +14,7 @@ import statistics
 
 # Definition von Funktionen zur Verschlüsselung b kongruent a mod 52 durch GAN
 
-def letters_to_value(x): # Definiere eine Funktion zur Abbildung von Buchstaben auf Zahlen a kongruent b mod 52
+def letters_to_value(x): # Definiere eine Funktion zur Abbildung von Strings auf Zahlen a kongruent b mod 52
     
     x_value = 0
 
@@ -31,7 +31,7 @@ def letters_to_value(x): # Definiere eine Funktion zur Abbildung von Buchstaben 
     
     return x_value
 
-def value_to_letters(x): # Definiere eine Funktion zur Abbildung von Zahlen auf Buchstaben a kongruent b mod 52
+def value_to_letters(x): # Definiere eine Funktion zur Abbildung von Zahlen auf Strings a kongruent b mod 52
      
     x_value = ''
 
@@ -130,7 +130,7 @@ def GenerateInitialKey(keysize):
 
 alphabet = ['0','1','2','3','4','5','6','7','8','9'] # Definiere eine Pythonliste mit Elementen aus dem deutschen Alphabet
 
-with open("KeyDeclaration.txt") as file: # Importiere den Zeichenstring aus dem externen File mit Bezeichnung PythonString.txt
+with open("KeyDeclaration.txt") as file: # Importiere den Zeichenstring aus dem externen File mit Bezeichnung KeyDeclaration.txt
 
     S = file.read()
     
@@ -164,7 +164,7 @@ for k in range(0, trials):
 
         difference = difference + Diskriminator(len(S), key, S)[l]
 
-    if (difference == 0.0):
+    if (difference == 0.0): # Für übereinstimmende Schlüsselwerte (Dezimalcodes) wird Validität bestätigt
 
         print(key)
         break
@@ -174,4 +174,14 @@ print('Originaler Dezimalcode: ', S)
 print(' ')
 print('Referenzcode: ', key)
 
-# Zusätzlich zu implementieren: Die Möglichkeit eine ganze Reihe von Dezimalcodes (Zeilenweise) zu übertragen.
+#########################################################
+#                                                       #
+#   TO DOs:                                             #
+#                                                       #
+#   1: Source Code anpassen für eine Vielzahl von       # 
+#      Dezimalcodes                                     #
+#   2: Teste die Skalierungseigenschaft als Funktion    #
+#      der Bit-Größe                                    #
+#   3: Komplexität der CNOT-Schaltung erhöhen           #
+#                                                       #
+#########################################################
