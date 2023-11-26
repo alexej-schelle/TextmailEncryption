@@ -266,3 +266,13 @@ for j in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragenen
 
 print('Entschlüsselte E-Mail: ',fSS)
 print('Generated Decimal Key: ', dkey)
+
+#########################################################
+#                                                       #
+# TO DOs:                                               #
+#                                                       #
+# 1: Source Code anpassen für Umlaute                   #
+# 2: Komplexität der Schaltung erhöhen                  #
+# 3: Source Code für Leerzeichenerkennung anpassen      #
+#                                                       #
+#########################################################
