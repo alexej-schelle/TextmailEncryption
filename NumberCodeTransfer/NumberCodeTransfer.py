@@ -14,7 +14,7 @@ import statistics
 
 # Definition von Funktionen zur Verschlüsselung b kongruent a mod 52 durch GAN
 
-def letters_to_value(x): # Definiere eine Funktion zur Abbildung von Buchstaben auf Zahlen a kongruent b mod 52
+def letters_to_value(x): # Definiere eine Funktion zur Abbildung von Strings auf Zahlen a kongruent b mod 52
     
     x_value = 0
 
@@ -31,7 +31,7 @@ def letters_to_value(x): # Definiere eine Funktion zur Abbildung von Buchstaben 
     
     return x_value
 
-def value_to_letters(x): # Definiere eine Funktion zur Abbildung von Zahlen auf Buchstaben a kongruent b mod 52
+def value_to_letters(x): # Definiere eine Funktion zur Abbildung von Zahlen auf Strings a kongruent b mod 52
      
     x_value = ''
 
@@ -130,7 +130,7 @@ def GenerateInitialKey(keysize):
 
 alphabet = ['0','1','2','3','4','5','6','7','8','9'] # Definiere eine Pythonliste mit Elementen aus dem deutschen Alphabet
 
-with open("CodeDeclaration.txt") as file: # Importiere den Zeichenstring aus dem externen File mit Bezeichnung PythonString.txt
+with open("CodeDeclaration.txt") as file: # Importiere den Zeichenstring aus dem externen File mit Bezeichnung CodeDeclaration.txt
 
     S = file.read()
     
@@ -154,17 +154,16 @@ for k in range(0, len(S)):
     K = GenerateInitialKey(M) # Generiere den ersten Schlüssel als Startwert für das GAN
     R = GenerateReferenceKey(M) # Generiere einen Referenzschlüssel
 
-    key = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion eines möglichen Eingangssignale (bisher unbekannt)
+    key = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion eines möglichen Eingangssignals (bisher unbekannt)
     dvalue = 0.0
 
-    for l in range(0, len(key)): # Berechne die Dezimaldarstellung des binären Schlüssels
+    for l in range(0, len(key)): # Berechne die Dezimaldarstellung des binären Schlüssels --> Binär-zu-Dezimalkonverter
 
         dvalue = dvalue + 2**l*key[l]
     
     dkey.append(int(dvalue))
 
-# Binär-zu-Dezimalkonverter einfügen #
-# Schleife über unterschiedliche Binärkeys zur Generierung eines dezimalen Schlüssels aus mehreren Komponenten #
+# Schleife über unterschiedliche Binärkeys zur Generierung eines dezimalen Schlüssels aus mehreren Komponenten 
 
 for i in range(0,len(S)): # Verschlüsselung eines Dezimalzahlencodes durch einen dezimalen Schlüssel 
 
@@ -185,3 +184,13 @@ print(' ')
 print('Generierter Dezimal Schlüssel: ', dkey)
 print(' ')
 
+#########################################################
+#                                                       #
+#   TO DOs:                                             #
+#                                                       #
+#   1: Source Code anpassen für eine Vielzahl von       # 
+#      Dezimalcodes                                     #
+#   2: Zuordnung von Interpretationen der Dezimalcodes  #
+#   3: Komplexität der CNOT-Schaltung erhöhen           #
+#                                                       #
+#########################################################
