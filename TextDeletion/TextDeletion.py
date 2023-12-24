@@ -271,7 +271,7 @@ for k in range(0, len(S)):
 
     K = GenerateInitialKey(M) # Generiere den ersten Schlüssel als Startwert für das GAN
 
-    key = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion eines möglichen Einganssignale (bisher unbekannt)
+    key = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion möglicher Eingangssignale (bisher unbekannt)
     dvalue = 0.0
 
     for l in range(0, len(key)):
