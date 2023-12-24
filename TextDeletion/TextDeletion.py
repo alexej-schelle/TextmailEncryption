@@ -247,7 +247,7 @@ for k in range(0, len(S)):
     
     dkey.append(int(dvalue))
 
-for i in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragene Zahlencodes 
+for i in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragenen Zahlencode 
 
     if (S[i] != ' '): fS[i] = (letters_to_value(S[i]) + dkey[i]) % len(alphabet) # Kongruent mod 26
     else: fS[i] = -1
