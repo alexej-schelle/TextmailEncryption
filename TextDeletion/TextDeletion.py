@@ -289,13 +289,14 @@ for j in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragenen
 print('Entschlüsselte E-Mail: ',fSS)
 print('Generated Decimal Key Not Unique: ', dkey)
 
-#########################################################
-#                                                       #
-# TO DOs:                                               #
-#                                                       #
-# 1: Source Code anpassen für Umlaute                   #
-# 2: Komplexität der Schaltung erhöhen                  #
-# 3: Bei Löschung des Schlüssels ist der Schlüssel      #
-# trivial durch die gleiche Schlatung reproduzierbar    #
-#                                                       #
-#########################################################
+######################################################
+#                                                    #
+# TO DOs:                                            #
+#                                                    #
+# 1: Source Code anpassen für Umlaute                #
+# 2: Komplexität der Schaltung erhöhen               #
+# 3: Bei Löschung des Schlüssels ist der Schlüssel   #
+# nicht trivial durch die gleiche Schaltung          #
+# reproduzierbar                                     #
+#                                                    #
+######################################################
