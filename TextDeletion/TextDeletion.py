@@ -206,7 +206,7 @@ def GenerateReferenceKey(keysize):
     
 def GenerateInitialKey(keysize):
 
-    for j in range(0, keysize): # Generiere einen zufälligen binären Schlüssel als Startwert
+    for j in range(0, keysize): # Generiere einen zufälligen binären Schlüssel als jeweiligen Startwert
 
         K[j] = random.randint(0,1)
 
