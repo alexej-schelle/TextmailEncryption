@@ -198,7 +198,7 @@ def GAN(length, initial_key, reference_key):
 
 def GenerateReferenceKey(keysize):
 
-    for j in range(0, keysize): # Generiere einen zufälligen binären Schlüssel als Referenzwert (entspricht externem und unbekanntem Referenzwert)
+    for j in range(0, keysize): # Generiere einen zufälligen binären Schlüssel als Referenzwert (entspricht externem Referenzwert)
 
         R[j] = random.randint(0,1)
     
