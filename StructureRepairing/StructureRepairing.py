@@ -313,5 +313,6 @@ print('Abweichung vor Rekonstruktion: ', abweichung, 'Prozent')
 # 1: Source Code anpassen für Umlaute                   #
 # 2: Komplexität der Schaltung erhöhen                  #
 # 3: Source Code für Leerzeichenerkennung anpassen      #
+# Source benötigt die Berechnung von abweichung nicht   #
 #                                                       #
 #########################################################
