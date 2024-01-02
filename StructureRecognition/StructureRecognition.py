@@ -4,7 +4,7 @@
 #                                                                                                                                              #
 ################################################################################################################################################
 
-# PYTHON ROUTINE zur Rekonstruktion von E-Mail Textstrukturen durch ein GAN-basiertes künstliches neuronales Netzwerk #
+# PYTHON ROUTINE zur Verschlüsselung von E-Mails durch ein GAN-basiertes künstliches neuronales Netzwerk #
 
 import os
 import sys
@@ -226,6 +226,7 @@ K = ['']*M # Definiere den Schlüssel K als Pythonliste mit der gleichen Anzahl 
 R = ['']*M # Definiere den Schlüssel R als Pythonliste mit der gleichen Anzahl von Elementen wie S  
 
 fS = ['']*len(S) # Definiere eine Python Liste für den kodierten Zeichenstring als verschlüsselte Zahlenfolge
+fSR = ['']*len(S) # Definiere eine Python Liste für den rekonstruierten Zeichenstring als verschlüsselte Zahlenfolge
 fSS = '' # Definiere eine Python Liste für den dekodierten Zeichenstring als entschlüsselte Zahlenfolge
 
 dkey = []
@@ -259,14 +260,51 @@ for i in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragene 
 
 print('Verschlüsselte E-Mail: ', fS)
 
-searchkey = [0.0]*len(S) # Hier wird ein vor-definerter (verschlüsselter Text) festgelegt
+searchkey = '' # Hier wird ein vor-definerter (verschlüsselter Text) festgelegt
 abweichung = 0.0 # Die Variable abweichung legt die durch das Maß letters_to_value festgelegte numerische Abweichung der gesuchten Buchstabenstruktur zur vorgegebenen Struktur fest
 
-for j in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragenen Zahlencode
+for i in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragene Zahlencodes 
 
-    if (fS[j] != -1): abweichung = abweichung + (fS[j] - float(searchkey[j]))/len(fS) # Entschlüsselung im String
+    fS[i] = fS[i] + random.randint(0,1) # Durch die Funktion random.randint wird durch zufällige Werte die kodierte Struktur modifiziert (gestört) 
 
-print('Abweichung: ', abweichung, ' Prozent')
+# An diesem Punkt liegt eine gestörte E-Mail Struktur vor 
+# Um zu testen, ob es sich um die ursprüngliche E-Mail handelt, modelliert man den Schlüssel durch das GAN erneut
+
+for k in range(0, len(S)):
+
+    print('Generate Key Element Nr. ', k)
+
+    K = GenerateInitialKey(M) # Generiere den ersten Schlüssel als Startwert für das GAN
+    R = GenerateReferenceKey(M) # Generiere einen Referenzschlüssel
+
+    searchkey = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion eines der möglichen Eingangssignale
+    dvalue = 0.0
+
+    for l in range(0, len(key)):
+
+        dvalue = dvalue + 2**l*key[l]
+    
+    dkey.append(int(dvalue))
+
+for i in range(0,len(S)): # Verschlüssle die originale (Referenz) E-Mail erneut und speichert diese in der Python-Liste fSR
+
+    if (S[i] != ' '): fSR[i] = (letters_to_value(S[i]) + dkey[i]) % len(alphabet) # Kongruent mod 26
+    else: fSR[i] = -1
+
+print('Verschlüsselte rekonstruierte E-Mail: ', fSR)
+
+for j in range(0,len(S)): # Gleiche die abweichenden Buchstaben in der gestörten E-Mail Textstruktur an den rekonstrukierten Text an
+
+    if (math.fabs(fSR[j] - math.fabs(fS[j]))) > 0.0 : fS[j] = fSR[j] # Entschlüsselung im String
+
+for j in range(0,len(S)): # Berechnung der Abweichung zwischen rekonstruierter E-Mail Textnachricht und originaler E-Mail Textnachricht
+
+    abweichung = abweichung + math.fabs(fS[j] - float(fSR[j]))/len(S)
+
+print('Abweichung vor Rekonstruktion: ', abweichung, 'Prozent')
+
+# Liegt die Abweichung zwischen Rekonstruktion und originalem Text nahe und direkt bei 0.0, handelte es sich bei dem verfälschten Text um den (gestörten) originalen Text 
+# Größere numerische Abweichnung können dadurch entstehen, dass es zwar übereinstimmende Buchstaben gibt, die nicht modifiziert werden, der rekonstruierte Text aber nicht mit dem originalen Text übereinstimmt    
 
 #########################################################
 #                                                       #
