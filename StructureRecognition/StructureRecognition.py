@@ -4,7 +4,7 @@
 #                                                                                                                                              #
 ################################################################################################################################################
 
-# PYTHON ROUTINE zur Verschlüsselung von E-Mails durch ein GAN-basiertes künstliches neuronales Netzwerk #
+# PYTHON ROUTINE zur Rekonstruktion von E-Mail Textstrukturen durch ein GAN-basiertes künstliches neuronales Netzwerk #
 
 import os
 import sys
