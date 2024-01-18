@@ -180,7 +180,8 @@ def GAN(length, initial_key, reference_key):
         sum = 0.0
 
         initial_key = CNOT(length, initial_key)
-
+        M = CNOT(length, initial_key)
+        
         if (k == 0): L = Generator(length, initial_key) 
         if (k > 0): L = Generator(length, M) 
         
