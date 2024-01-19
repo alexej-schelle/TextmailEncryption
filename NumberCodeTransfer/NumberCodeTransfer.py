@@ -98,8 +98,8 @@ def GAN(length, initial_key, reference_key):
 
         if (k == 0): L = Generator(length, initial_key) 
         if (k > 0): L = CNOT(length, Generator(length, M)) # Bemerkung: Hier hat noch die CNOT-Funktion gefehlt.
-        
-        GAN_Key = L
+
+        GAN_Key = L        
         M = Diskriminator(length, L, reference_key)
 
         for j in range(0, length):
