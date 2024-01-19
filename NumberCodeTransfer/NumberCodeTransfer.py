@@ -110,7 +110,7 @@ def GAN(length, initial_key, reference_key):
 
         if (sum == 0.0):
 
-            return(initial_key)
+            return(GAN_Key)
 
             break
 
