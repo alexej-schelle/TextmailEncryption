@@ -134,13 +134,14 @@ def value_to_letters(x): # Definiere eine Funktion zur Abbildung von Zahlen auf 
 
     return x_value
 
-def Generator(length, train):
+def Generator(length, input_key, train):
 
     output_key = [0.0]*(length+1)
 
     for j in range(0, length): # Generiere einen zufälligen binären Schlüssel
 
         if (train[j] != 0.00): output_key[j] = random.randint(0,1)
+        else: output_key[j] = input_key[j]
 
     return(output_key)
     
@@ -154,34 +155,37 @@ def Diskriminator(length, input_key, ideal_key):
 
     return(difference)
 
-def CNOT(length, input_key): # Defines a Non-Reversible Logical Operation
+def CNOT(length, input_key): # Defines a pairwise CNOT-Operation
 
     output_key = [0.0]*length
-
-    output_key[1] = 1.0 
+    
+    output_key[1] = 1.0
     output_key[2] = 1.0
+        
+    for k in range(0, M):
 
-    for k in range(0, length):
-
-        if (input_key[k] == 1 or input_key[k] == 0): input_key[k] = random.randint(0,1)      
+        if (input_key[k] == 1 and input_key[k-1] == 0): input_key[k-1] = 1        
+        if (input_key[k] == 1 and input_key[k-1] == 1): input_key[k-1] = 0        
 
         output_key[k] = input_key[k]
+        output_key[k-1] = input_key[k-1]
 
     return output_key
 
 def GAN(length, initial_key, reference_key):
 
     k = 0
-
+    GAN_Key = ['']*length # Definiere den GAN-Schlüssel GAN_Key als Pythonliste mit der gleichen Anzahl von Elementen wie die anderen Keys 
+   
     while(True):
 
         sum = 0.0
 
         initial_key = CNOT(length, initial_key)
 
-        if (k == 0): L = Generator(length, initial_key) 
-        if (k > 0): L = Generator(length, M) 
-        
+        if (k == 0): L = Generator(length, initial_key, GAN_Key) 
+        if (k > 0): L = CNOT(length, Generator(length, L, M)) # Bemerkung: Hier hat noch die CNOT-Funktion gefehlt.
+    
         M = Diskriminator(length, L, reference_key)
 
         for j in range(0, length):
@@ -189,24 +193,27 @@ def GAN(length, initial_key, reference_key):
             sum = sum + M[j]
 
         k = k + 1
+        
+        if (sum == 0.0):
 
-        if (sum == 0.00):
-
-            return(initial_key)
-
+            return(GAN_Key)
             break
+
+        else:
+
+            GAN_Key = L
 
 def GenerateReferenceKey(keysize):
 
-    for j in range(0, keysize): # Generiere einen zufälligen binären Schlüssel als Referenzwert (entspricht externem Referenzwert)
+    for j in range(0, keysize): # Generiere einen zufälligen binären Schlüssel als Referenzwert (entspricht externem und unbekanntem Referenzwert)
 
-        R[j] = random.randint(0,1)
+        K[j] = random.randint(0,1)
     
-    return R
+    return K
     
 def GenerateInitialKey(keysize):
 
-    for j in range(0, keysize): # Generiere einen zufälligen binären Schlüssel als jeweiligen Startwert
+    for j in range(0, keysize): # Generiere einen zufälligen binären Schlüssel als Startwert
 
         K[j] = random.randint(0,1)
 
@@ -247,7 +254,8 @@ for k in range(0, len(S)):
     
     dkey.append(int(dvalue))
 
-for i in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragenen Zahlencode 
+
+for i in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragene Zahlencodes 
 
     if (S[i] != ' '): fS[i] = (letters_to_value(S[i]) + dkey[i]) % len(alphabet) # Kongruent mod 26
     else: fS[i] = -1
@@ -271,7 +279,7 @@ for k in range(0, len(S)):
 
     K = GenerateInitialKey(M) # Generiere den ersten Schlüssel als Startwert für das GAN
 
-    key = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion möglicher Eingangssignale (bisher unbekannt)
+    key = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion eines möglichen Einganssignale (bisher unbekannt)
     dvalue = 0.0
 
     for l in range(0, len(key)):
@@ -288,14 +296,13 @@ for j in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragenen
 print('Entschlüsselte E-Mail: ',fSS)
 print('Generated Decimal Key Not Unique: ', dkey)
 
-######################################################
-#                                                    #
-# TO DOs:                                            #
-#                                                    #
-# 1: Source Code anpassen für Umlaute                #
-# 2: Komplexität der Schaltung erhöhen               #
-# 3: Bei Löschung des Schlüssels ist der Schlüssel   #
-# nicht trivial durch die gleiche Schaltung          #
-# reproduzierbar                                     #
-#                                                    #
-######################################################
+#########################################################
+#                                                       #
+# TO DOs:                                               #
+#                                                       #
+# 1: Source Code anpassen für Umlaute                   #
+# 2: Komplexität der Schaltung erhöhen                  #
+# 3: Bei Löschung des Schlüssels ist der Schlüssel      #
+# trivial durch die gleiche Schlatung reproduzierbar    #
+#                                                       #
+#########################################################
