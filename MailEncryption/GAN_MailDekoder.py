@@ -174,17 +174,18 @@ def CNOT(length, input_key): # Defines a pairwise CNOT-Operation
 def GAN(length, initial_key, reference_key):
 
     k = 0
+    GAN_Key = ['']*length # Definiere den GAN-Schlüssel GAN_Key als Pythonliste mit der gleichen Anzahl von Elementen wie die anderen Keys 
 
     while(True):
 
         sum = 0.0
 
         initial_key = CNOT(length, initial_key)
-        M = CNOT(length, initial_key)
-        
+
         if (k == 0): L = Generator(length, initial_key) 
-        if (k > 0): L = Generator(length, M) 
-        
+        if (k > 0): L = CNOT(length, Generator(length, M)) # Bemerkung: Hier hat noch die CNOT-Funktion gefehlt.
+
+        GAN_Key = L        
         M = Diskriminator(length, L, reference_key)
 
         for j in range(0, length):
@@ -195,7 +196,7 @@ def GAN(length, initial_key, reference_key):
 
         if (sum == 0.0):
 
-            return(initial_key)
+            return(GAN_Key)
 
             break
 
@@ -255,7 +256,7 @@ for k in range(0, len(S)):
 
 for i in range(0,len(S)): # Verschlüsselung von E-Mails durch den übertragene Zahlencodes 
 
-    if (S[i] != ' '): fS[i] = (letters_to_value(S[i]) + dkey[i]) % len(alphabet) # Kongruent mod 26
+    if (S[i] != ' '): fS[i] = (letters_to_value(S[i]) + dkey[i]) % len(alphabet) # Kongruent mod 52
     else: fS[i] = -1
 
 print('Verschlüsselte E-Mail: ', fS)
