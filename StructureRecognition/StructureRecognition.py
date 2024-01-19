@@ -46,12 +46,8 @@ def CNOT(length, input_key): # Defines a pairwise CNOT-Operation
         
     for k in range(0, M):
 
-        if (input_key[k] == 1 and input_key[k-1] == 0): input_key[k-1] = 1        
-        if (input_key[k] == 1 and input_key[k-1] == 1): input_key[k-1] = 0        
-
-        output_key[k] = input_key[k]
-        output_key[k-1] = input_key[k-1]
-
+        if (input_key[k] == 1 or input_key[k] == 0): output_key[k] = input_key[k]        
+ 
     return output_key
 
 def GAN(length, initial_key, reference_key):
@@ -113,12 +109,13 @@ dvalue = 0.0
 
 iterations = 10000000
 
+R = GenerateReferenceKey(M) # Generiere einen Referenzschlüssel
+
 for k in range(0, iterations):
 
     print('Generate Key Element Nr. ', k)
 
-    R = GenerateReferenceKey(M) # Generiere den ersten Schlüssel als Startwert für das GAN
-    K = GenerateInitialKey(M) # Generiere einen Referenzschlüssel
+    K = GenerateInitialKey(M) # Generiere den ersten Schlüssel als Startwert für das GAN
 
     dkey = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion eines möglichen Eingangssignals (bisher unbekannt)
     dvalue = 0.0
@@ -131,7 +128,10 @@ for k in range(0, iterations):
 
     if (dvalue == 0.00): 
         
+        print('Found key for the reference structure is: ')
         print(dkey)
+        print('Refence key is: ')
+        print(R)
 
         break
         
