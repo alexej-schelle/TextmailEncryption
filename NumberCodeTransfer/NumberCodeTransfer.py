@@ -88,6 +88,7 @@ def CNOT(length, input_key): # Defines a pairwise CNOT-Operation
 def GAN(length, initial_key, reference_key):
 
     k = 0
+    GAN_Key = ['']*length # Definiere den GAN-Schlüssel GAN_Key als Pythonliste mit der gleichen Anzahl von Elementen wie die anderen Keys 
 
     while(True):
 
@@ -96,8 +97,9 @@ def GAN(length, initial_key, reference_key):
         initial_key = CNOT(length, initial_key)
 
         if (k == 0): L = Generator(length, initial_key) 
-        if (k > 0): L = Generator(length, M) 
+        if (k > 0): L = CNOT(length, Generator(length, M)) # Bemerkung: Hier hat noch die CNOT-Funktion gefehlt.
         
+        GAN_Key = L
         M = Diskriminator(length, L, reference_key)
 
         for j in range(0, length):
