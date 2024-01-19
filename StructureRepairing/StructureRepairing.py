@@ -134,13 +134,14 @@ def value_to_letters(x): # Definiere eine Funktion zur Abbildung von Zahlen auf 
 
     return x_value
 
-def Generator(length, train):
+def Generator(length, input_key, train):
 
     output_key = [0.0]*(length+1)
 
     for j in range(0, length): # Generiere einen zufälligen binären Schlüssel
 
         if (train[j] != 0.00): output_key[j] = random.randint(0,1)
+        else: output_key[j] = input_key[j]
 
     return(output_key)
     
@@ -174,16 +175,17 @@ def CNOT(length, input_key): # Defines a pairwise CNOT-Operation
 def GAN(length, initial_key, reference_key):
 
     k = 0
-
+    GAN_Key = ['']*length # Definiere den GAN-Schlüssel GAN_Key als Pythonliste mit der gleichen Anzahl von Elementen wie die anderen Keys 
+   
     while(True):
 
         sum = 0.0
 
         initial_key = CNOT(length, initial_key)
 
-        if (k == 0): L = Generator(length, initial_key) 
-        if (k > 0): L = Generator(length, M) 
-        
+        if (k == 0): L = Generator(length, initial_key, GAN_Key) 
+        if (k > 0): L = CNOT(length, Generator(length, L, M)) # Bemerkung: Hier hat noch die CNOT-Funktion gefehlt.
+    
         M = Diskriminator(length, L, reference_key)
 
         for j in range(0, length):
@@ -191,12 +193,15 @@ def GAN(length, initial_key, reference_key):
             sum = sum + M[j]
 
         k = k + 1
-
+        
         if (sum == 0.0):
 
-            return(initial_key)
-
+            return(GAN_Key)
             break
+
+        else:
+
+            GAN_Key = L
 
 def GenerateReferenceKey(keysize):
 
@@ -313,6 +318,5 @@ print('Abweichung vor Rekonstruktion: ', abweichung, 'Prozent')
 # 1: Source Code anpassen für Umlaute                   #
 # 2: Komplexität der Schaltung erhöhen                  #
 # 3: Source Code für Leerzeichenerkennung anpassen      #
-# Source benötigt die Berechnung von abweichung nicht   #
 #                                                       #
 #########################################################
