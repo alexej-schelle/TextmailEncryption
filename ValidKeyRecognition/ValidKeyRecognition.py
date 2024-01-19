@@ -88,6 +88,7 @@ def CNOT(length, input_key): # Defines a pairwise CNOT-Operation
 def GAN(length, initial_key, reference_key):
 
     k = 0
+    GAN_Key = ['']*length # Definiere den GAN-Schlüssel GAN_Key als Pythonliste mit der gleichen Anzahl von Elementen wie die anderen Keys 
 
     while(True):
 
@@ -96,8 +97,9 @@ def GAN(length, initial_key, reference_key):
         initial_key = CNOT(length, initial_key)
 
         if (k == 0): L = Generator(length, initial_key) 
-        if (k > 0): L = Generator(length, M) 
+        if (k > 0): L = CNOT(length, Generator(length, M)) # Bemerkung: Hier hat noch die CNOT-Funktion gefehlt.
         
+        GAN_Key = L
         M = Diskriminator(length, L, reference_key)
 
         for j in range(0, length):
@@ -108,7 +110,7 @@ def GAN(length, initial_key, reference_key):
 
         if (sum == 0.0):
 
-            return(initial_key)
+            return(GAN_Key)
 
             break
 
@@ -130,7 +132,7 @@ def GenerateInitialKey(keysize):
 
 alphabet = ['0','1','2','3','4','5','6','7','8','9'] # Definiere eine Pythonliste mit Elementen aus dem deutschen Alphabet
 
-with open("KeyDeclaration.txt") as file: # Importiere den Zeichenstring aus dem externen File mit Bezeichnung KeyDeclaration.txt
+with open("KeyStructure.txt") as file: # Importiere den Zeichenstring aus dem externen File mit Bezeichnung KeyDeclaration.txt
 
     S = file.read()
     
@@ -158,7 +160,7 @@ for k in range(0, trials):
     K = GenerateInitialKey(M) # Generiere den ersten Schlüssel als Startwert für das GAN
     R = GenerateReferenceKey(M) # Generiere einen Referenz Schlüssel
     
-    key = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion eines möglichen Eingangssignale (bisher unbekannt)
+    key = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion eines der möglichen Eingangssignale (bisher unbekannt)
     
     for l in range(0, len(Diskriminator(len(S), key, S))):
 
