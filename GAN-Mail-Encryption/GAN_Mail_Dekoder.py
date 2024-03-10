@@ -203,30 +203,17 @@ def CNOT(length, input_key): # Definiert eine paarweise Invertierung der Ausgang
         if (input_key[k] == 0): input_key[k] = 1        
         else: input_key[k] = 0
 
-        # @ Fritz Fischer : Hier kannst Du z. B. mit der folgenden Schaltung verfizieren, dass man keine nicht-reversible Schaltung erhält, für einen Defekt (beschrieben durch eine Funktion) dieser Bauart:  
-
-        # Hier bitte einmal ausprobieren und das Ergebnis dokumentieren :
+        # Nicht-reversible Schaltung: 
 
         # if (input_key[0] == 1 or input_key[0] == 0): input_key[0] = random.randint(0,1)
         # if (input_key[1] == 1 or input_key[1] == 0): input_key[1] = random.randint(0,1)
         # if (input_key[2] == 1 or input_key[2] == 0): input_key[2] = random.randint(0,1)
         # if (input_key[3] == 1 or input_key[3] == 0): input_key[3] = random.randint(0,1)
 
-        # @ Renars Miculis : Hier kannst Du z. B. mit der folgenden Schaltung verfizieren, dass man keine Konvergenz erreicht, für einen Defekt (beschrieben durch eine Funktion) dieser Bauart:  
-        # Ändert man den Wert der Variablen von sum == float(length) auf sum == float(length) - 2, erhält man wieder einen konvergenten Algorithmus, allerdings mit Abweichung im Text bei der Entschlüsselung
-        
-        # Hier bitte einmal ausprobieren und das Ergebnis dokumentieren :
-        
+        # Mögliche Defekte integrieren
+
         # if (input_key[0] == 1 or input_key[0] == 0): input_key[0] = 1
         # if (input_key[1] == 1 or input_key[1] == 0): input_key[1] = 1
-
-        # @ Gina-Maria Meyer & Sven Engels: Hier werden die Bedingungen an die Validität von (binären) Referenzwerten festgelegt und dann der Schlüssel aus KetStructure.txt mit dynamischen Schlüsselwerten aus dem GAN verglichen. Zum Beispiel: Valide Referenzschlüssel sollen an bestimmten Stellen der Zahlenkombination eine 1 festgelegt haben.
-
-        # Hier bitte einmal durch Festlegen unterschiedlicher Kriterien ausprobieren und das Ergebnis dokumentieren :
-        
-        if (input_key[0] == 1 or input_key[0] == 0): input_key[0] = 1
-        if (input_key[2] == 1 or input_key[2] == 0): input_key[2] = 1
-        if (input_key[4] == 1 or input_key[4] == 0): input_key[4] = 1
 
         output_key[k] = input_key[k]
         
@@ -258,7 +245,7 @@ def GAN(length, initial_key, reference_key):
 
         k = k + 1
 
-        if (sum == float(length)-3):
+        if (sum == float(length)): # Hier wird die Genaugkeit an das GAN festgelegt.
 
             return(initial_key)
             break
@@ -330,6 +317,8 @@ for i in range(0,len(S)): # Verschlüsselung der Textzeichen durch den übertrag
 
 dkey = []
 
+# Ab hier wird die E-Mail und die Referenzschlüssel als übermittelt angenommen und wieder durch die Referenzschlüssel entschlüsselt.
+
 for k in range(0, len(S)):
 
     print('Generate Key Element Nr. ', k)
@@ -359,102 +348,3 @@ print('Verschlüsselte E-Mail : ', fS)
 print(' ')
 print('Entschlüsselte E-Mail : ',fSS)
 print(' ')
-
-################################################################################################################################################################################
-#                                                                                                                                                                              #
-# Hier der Part zur Rekonstruktion von E-Mail Textstrukturen, z. B. nach der Störung der verschlüsselten E-Mail durch externe Störungen (@ Sarah Rosa Werner und Hazem Kabawa) #
-# Diese Komponente ist z. B. hilfreich, um zu prüfen, ob es sich bei einem nicht korrekt entschlüsselten Text tatsächlich ujm den originalen Text handelt, den man annimmt.    #
-#                                                                                                                                                                              #
-################################################################################################################################################################################
-
-fSR = ['']*len(S)
-
-abweichung = 0.0
-norm = 0.0
-
-for i in range(0,len(S)): # Verschlüssle die originale (Referenz) E-Mail erneut und speichert diese in der Python-Liste fSR
-
-    if (S[i] != ' '): fSR[i] = (letters_to_value(S[i]) + dkey[i]) % len(alphabet) # Kongruent mod 52
-    else: fSR[i] = -1
-
-for j in range(0,len(S)): # Berechnung der Abweichung zwischen rekonstruierter E-Mail Textnachricht und originaler E-Mail Textnachricht
-
-    abweichung = abweichung + math.fabs(fS[j] - float(fSR[j]))
-    norm = norm + fS[j]
-
-print('Relative Abweichung vor Rekonstruktion : ', abweichung/norm*100.0, 'Prozent') # Wenn die Abweichung Null beträgt, hat die Rekonstruktion funktioniert, und es handelte sich bei der gestörten verschlüsselten E-Mail um den originalen Text.
-print(' ')
-
-for j in range(0,len(S)): # Gleiche die abweichenden Buchstaben in der gestörten E-Mail Textstruktur an den rekonstrukierten Text an
-
-    if (math.fabs(fSR[j] - math.fabs(fS[j]))) > 0.0 : fS[j] = fSR[j] # Entschlüsselung im String
-
-print('Verschlüsselte rekonstruierte E-Mail : ', fSR)
-print(' ')
-print('GAN-Generierter Dezimalschlüssel : ', dkey)
-print(' ')
-
-#
-# @ Gina-Maria Meyer und Sven Engels : Hier kann man die Routine dahingehen verwenden, um binäre Werte zu vergleichen. Z. B. zur Falschgeld- bzw. Binärstrukturerkennung erkennung.
-#
-
-alphabet = ['0','1','2','3','4','5','6','7','8','9'] # Definiere eine Pythonliste mit Elementen aus dem deutschen Alphabet
-
-with open("KeyStructure.txt") as file: # Importiere den Zeichenstring aus dem externen File mit Bezeichnung KeyDeclaration.txt
-
-    S = file.read()
-    
-M = 16 # Länge des Schlüssels in Einheiten von Bits
-
-K = ['']*M # Definiere den Schlüssel K als Pythonliste mit der gleichen Anzahl von Elementen wie S     
-R = ['']*M # Definiere den Schlüssel R als Pythonliste mit der gleichen Anzahl von Elementen wie S  
-
-fS = ['']*len(S) # Definiere eine Python Liste für den kodierten Zeichenstring als verschlüsselte Zahlenfolge
-fSS = '' # Definiere eine Python Liste für den dekodierten Zeichenstring als entschlüsselte Zahlenfolge
-
-print('Number of Key Elements: ', len(S))
-
-trials = 100000
-difference = 0.0
-
-for k in range(0, trials):
-
-    print('Comparing Generated Key Element Nr. ', k)
-    difference = 0.0
-
-    K = GenerateInitialKey(M) # Generiere den ersten Schlüssel als Startwert für das GAN
-    R = GenerateReferenceKey(M) # Generiere einen Referenz Schlüssel
-    
-    key = GAN(M, K, R) # Modelliere ein GAN-Netzwerk zur Rekonstruktion eines der möglichen Eingangssignale (bisher unbekannt)
-    
-    for j in range(0, len(S)): # Berechne mit dem GAN (Schaltung) kompatible Werte 
-
-        difference = difference + math.fabs(float(key[j]) - float(S[j]))
-
-    if (difference == 0.0): # Für übereinstimmende Schlüsselwerte (Dezimalcodes mit difference = 0.0) wird die Validität bestätigt
-
-        print(' ')
-        print('Valider Referenzschlüssel.')
-        print(' ')
-        print('Originaler Dezimalcode: ', S)
-        print(' ')
-        print('Referenzcode: ', key)
-
-        break
-
-    if (k == trials-1):
-        
-        print(' ')
-        print('Kein valider Referenzschlüssel.')
-        print(' ')
-       
-#########################################################
-#                                                       #
-# TO DOs:                                               #
-#                                                       #
-# 1: Source Code anpassen für Umlaute                   #
-# 2: Schaltung ggfalls anpassen                         #
-# 3: Weitere Features integrieren                       #
-#                                                       #
-#########################################################
- 
