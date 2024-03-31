@@ -5,16 +5,6 @@
 ################################################################################################################################################
 
 # PYTHON ROUTINE zur Verschlüsselung von E-Mails durch ein GAN-basiertes künstliches neuronales Netzwerk #
-
-# @ Adrian-Jonah Dahl : Der Source Code kann zur Ver- und Entschlüsselung von Texten genutzt werden. Einfach einige Beispiele durchtesten.   
-# @ Fritz Fischer : Mit dem folgenden Source Code kannst Du durch die implementierte Schaltung verfizieren, dass man keine nicht-reversible Schaltung erhält, für einen Defekt wie weiter unten im Source Code beschrieben. 
-# @ Renars Miculis : Mit dem folgenden Source Code kannst Du durch die implementierte Schaltung verfizieren, wann Konvergenz ereicht wird und wie sich die Konvergenzeigenschaften als Funktion der Parameter verhält, wie weiter unten im Source Code beschrieben.
-# @ Sarah Rosa Werner: Mit dem folgenden Source Code kannst Du verfizieren, dass GAN-generierte gestörten entschlüsselte E-Mail Textstrukturen, durch Rekonstruktion wiederhergestellt werden können. Dies ist im unteren Programmteil an der betreffenden Stelle (siehe ab Zeile 325) implementiert.
-# @ Hazem Kabawa: Mit dem vorliegenden Source Code ist es außerdem möglich, eine Strukturwiederherstellung von Texten bzw. binären Mustern zu errichen. Das funktioniert im einfachsten Fall wie oben für Sarah Rosa Werner beschrieben.
-# @ Jan Wolter: Der vorliegenden Source Code kann druch Abbildung von binären Zahlenformaten auf RGB-Codes ebenso als Grundlage zur Verschlüsselung von Bildern verwendet werden, indem man RGB-Farbcodes wie (255, 0, 255) auf Binarformate wie (1111 1111", 0000 0000, 1111 1111") abbildet. Dies sollte einfach allgemein in Deinem Projekt diskutiert werden. Den vorliegenden sOurce Code kannst Du anwenden, um beispielhaft Zahlencoes der Form 1111 1111 oder 0000 0000 zu verschlüsseln, dazu muss Du lediglich den Text in der E-Mail anpassen und anstatt der Funktionen letter_to_value und value_to_letters nur die Werte aus den Python-Arrays S[i] und (fS[j] - dkey[j]) benutzen. Bitte einmal durchdenken und dann dokumentieren.
-# @ Gina-Maria Meyer: Mit dem vorliegenden Source Code ist es möglich, binäre Schlüssel auf Validität zu prüfen. Validität ist dabei derart definiert bzw. festgelegt, dass man durch die Schlatung CNOT festsetzt, welche Bedigungen valide Schlüssel aufweisen müssen. Durch den Vergleich von dynamischen durch das GAN-generierten Schlüsseln kann man im interativen Durchlauf testen, ob der vorgegebene Schlüssel den Vorgaben eines validen Schlüssels entspricht oder nicht.  
-# @ Sven Engels: Die Strukturerkennung funktioniert genauso wie der Test auf valide Schlüssel. Als Struktur kann man hier weiterführend auch Python-Strings anstatt binärer Zahlenwerte verwenden bzw. mehrzeilige Binärcodes auf Vailidität testen. 
-
 # Allgemein: Es wurde in dieser aktuellesten Version eine Invertierende Schaltung verwendet - siehe Funktions-Definition unter CNOT.
 
 import os
@@ -214,10 +204,7 @@ def CNOT(length, input_key): # Definiert eine paarweise Invertierung der Ausgang
 
         if (input_key[k] == 0): input_key[k] = 1        
         else: input_key[k] = 0
-
-        # @ Renars Miculis : Hier kannst Du z. B. mit der folgenden Schaltung verfizieren, dass man keine Konvergenz erreicht, für einen Defekt (beschrieben durch eine Funktion) dieser Bauart:  
-        # Ändert man den Wert der Variablen von sum == float(length) auf sum == float(length) - 2, erhält man wieder einen konvergenten Algorithmus, allerdings mit Abweichung im Text bei der Entschlüsselung
-        
+    
         # Hier bitte einmal ausprobieren und das Ergebnis dokumentieren :
         
         if (input_key[0] == 1 or input_key[0] == 0): input_key[0] = 1
@@ -353,25 +340,3 @@ print('Verschlüsselte E-Mail : ', fS)
 print(' ')
 print('Entschlüsselte E-Mail : ',fSS)
 print(' ')
-      
-#########################################################
-#                                                       #
-# TO DOs:                                               #
-#                                                       #
-# 1: Source Code anpassen für Umlaute                   #
-# 2: Schaltung ggfalls anpassen                         #
-# 3: Weitere Features integrieren                       #
-#                                                       #
-#########################################################
-
-# 
-# - Parameter M testen (Zeile 280) --> M = 8 (xx Sekunde), M = 12 (xx Sekunden), M = 16 (xx Sekunden), M = 18 (xx Sekunden). 10010110 --> M = 8; 1001011011011100 --> M = 16; 
-# 
-# - Beschleunigt oder verlangsamt die IF-Kontrollstruktur den Algorithmus? (Zeile 194) (Sehr einfache künstliche Intelligenz)
-# 
-# - Zeile 255: Hier kann die Unschärfe bzw. Abweichung zwischen Referenzschlüssel und dynamischem Schlüssel festgelegt werden (mit modelliertem Defekt)
-#
-# --> Für sum = float(length) (Differenz der binären Werte = Anzahl der Bits) => 100 % Übereinstimmung, 
-# --> Für sum = float(length)-1 (Differenz der binären Werte = Anzahl der Bits - 1) => < 100 % Übereinstimmung,   
-# --> Lege eine Abweichnung fest --> < 80 % --> Damit lässt sich der simulierte Defekt (aus Zeile 223 und 224) beheben.
-#
