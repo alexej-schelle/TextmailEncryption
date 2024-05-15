@@ -1,8 +1,8 @@
-################################################################################################################################################
-#                                                                                                                                              #
-#   Autor: Dr. A. Schelle (alexej.schelle.ext@iu.org). Copyright : IU Internationale Hochschule GmbH, Juri-Gagarin-Ring 152, D-99084 Erfurt    #
-#                                                                                                                                              #
-################################################################################################################################################
+#####################################################################################################################################################################
+#                                                                                                                                                                   #
+#   Autoren: Renars Miculis und Dr. A. Schelle (alexej.schelle.ext@iu.org). Copyright : IU Internationale Hochschule GmbH, Juri-Gagarin-Ring 152, D-99084 Erfurt    #
+#                                                                                                                                                                   #
+#####################################################################################################################################################################
 
 # PYTHON ROUTINE zur Verschlüsselung von E-Mails durch ein GAN-basiertes künstliches neuronales Netzwerk #
 # Allgemein: Es wurde in dieser aktuellesten Version eine Invertierende Schaltung verwendet - siehe Funktions-Definition unter CNOT.
