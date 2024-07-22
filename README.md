@@ -1,4 +1,4 @@
-# GAN-based encryption models for data modeling in Python 
+# GAN-basiertes Modell zur Verschlüsselung von E-Mail Textnachrichten 
 
 Die Studierenden erlernen die berufspraktisch relevante Anwendung von Methoden zur Analyse und Optimierung von elektrischen Netzwerken, 
 indem unter Anleitung eines Betreuers (Dozent) ein Praxisseminar mit Unternehmensbezug im Bereich der Analyse und Optimierung eines elektrischen Netzwerks oder eine Fragestellung zur Erfassung 
