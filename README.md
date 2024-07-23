@@ -28,6 +28,7 @@ programmieren, mithilfe derer man ein durch eine Schaltung erzeugtes binäres Si
 
 *********************************************************************************************************************
 
+   - Adrian Dahl
    - Sven Engels
    - Fritz Fischer
    - Mert Köktürk
