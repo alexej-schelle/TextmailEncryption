@@ -28,15 +28,15 @@ programmieren, mithilfe derer man ein durch eine Schaltung erzeugtes binäres Si
 
 *********************************************************************************************************************
 
-   Sven Engels
-   Fritz Fischer
-   Mert Köktürk
-   Renars Miculis
-   Sarah Rosa Werner
+   - Sven Engels
+   - Fritz Fischer
+   - Mert Köktürk
+   - Renars Miculis
+   - Sarah Rosa Werner
 
    et
 
-   FH-Doz. Dr. A. Schelle.
+   - FH-Doz. Dr. A. Schelle.
   
 *********************************************************************************************************************
 
