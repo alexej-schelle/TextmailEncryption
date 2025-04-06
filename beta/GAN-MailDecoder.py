@@ -1,6 +1,6 @@
 ##################################################################################################################################################################
 #                                                                                                                                                                #
-#   Autoren: Adrian Dahl und Dr. A. Schelle (alexej.schelle.ext@iu.org). Copyright : IU Internationale Hochschule GmbH, Juri-Gagarin-Ring 152, D-99084 Erfurt    #
+#   Autor: Dr. A. Schelle (alexej.schelle.ext@iu.org). Copyright : IU Internationale Hochschule GmbH, Juri-Gagarin-Ring 152, D-99084 Erfurt                      #
 #                                                                                                                                                                #
 ##################################################################################################################################################################
 
@@ -24,7 +24,7 @@ def letters_to_value(x): # Definiere eine Funktion zur Abbildung von Buchstaben 
 
     x_value = 0
 
-    unicode_letters = [chr(i) for i in range(0x110000) if unicodedata.category(chr(i)).startswith('L')]
+    unicode_letters = [chr(i) for i in range(0x110000) if unicodedata.category(chr(i)).startswith(('L', 'P', 'N', 'S'))]
 
     for k in range(len(unicode_letters)):
 
@@ -38,7 +38,7 @@ def value_to_letters(x): # Definiere eine Funktion zur Abbildung von Zahlen auf 
 
     x_value = ''
 
-    unicode_letters = [chr(i) for i in range(0x110000) if unicodedata.category(chr(i)).startswith('L')]
+    unicode_letters = [chr(i) for i in range(0x110000) if unicodedata.category(chr(i)).startswith(('L', 'P', 'N', 'S'))]
 
     for k in range(len(unicode_letters)):
 
@@ -247,7 +247,7 @@ def GenerateInitialKey(keysize):
     K = [random.randint(0,1) for _ in range(keysize)]  # Korrekte Initialisierung
     return K
 
-alphabet = [chr(i) for i in range(0x110000) if unicodedata.category(chr(i)).startswith('L')]
+alphabet = [chr(i) for i in range(0x110000) if unicodedata.category(chr(i)).startswith(('L', 'P', 'N', 'S'))]
 
 K = ['']*M # Definiere den Schlüssel K als Pythonliste mit der gleichen Anzahl von Elementen wie S     
 R = ['']*M # Definiere den Schlüssel R als Pythonliste mit der gleichen Anzahl von Elementen wie S  
